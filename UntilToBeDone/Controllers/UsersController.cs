@@ -51,12 +51,21 @@ namespace UntilToBeDone.Controllers
 
 		[HttpDelete]
 		[Route("DeleteUser")]
-		public string DeleteUser(Users user)
+		public string DeleteUser(int id)
 		{
-			userContext.Users.Remove(user);
-			userContext.SaveChanges();
+			Users user = userContext.Users.Where(x => x.ID == id).FirstOrDefault();
+			if (user != null)
+			{
+				userContext.Users.Remove(user);
+				userContext.SaveChanges();
 
-			return "User Deleted";
+				return "User Deleted";
+			}
+			else
+			{
+				return "No User found";
+			}
+			
 		}
     }
 }
